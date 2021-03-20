@@ -1,11 +1,18 @@
-import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Fields from "./Fields";
+import { SetupContext } from "../../Services/setUpContext/setUpContext";
 
 const useStyles = makeStyles((theme) => ({
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -25,95 +32,53 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QualificationForm() {
+const QualificationForm = ({handleNext,handleBack}) => {
   const classes = useStyles();
-  const [state, setState] = useState([
-    { deg: "", passOut: "", completedAt: "", id: 0 },
-  ]);
-
-  const renderField = () => {
-    return state.map((x, index) => <Fields i={index} />);
-  };
-  
-  const changeDesc = ( id, feild, value ) => {
-    let projects = state;
-    for (var i in projects) {
-      if (projects[i].id === id) {
-         projects[i][feild] = value;
-         break; //Stop this loop, we found it!
-      }
-    }
-    setState(projects);
-    console.log(id, feild, value, projects[i].id);
-    }
-
-  const Fields = ({ i }) => {
-    return (
-      <React.Fragment>
-        <Typography variant="h6" gutterBottom>
-          Qualification Details {i + 1}
-        </Typography>
-
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              required
-              id="deg"
-              name="deg"
-              label="Degree"
-              fullWidth
-              autoComplete="degree-name"
-              value={state[i].deg}
-              onChange={(e) =>{
-                  let newArray = state;
-                  newArray[i] = { ...newArray[i], deg: e.target.value }
-                  console.log(newArray[i]);
-                  setState(newArray);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="passOut"
-              name="passOut"
-              label="Passed Out"
-              fullWidth
-              autoComplete="passed-out"
-              value={state[i].passOut}
-              onChange={(e) => changeDesc(i, "passOut", e.target.value) }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="completedAt"
-              name="completedAt"
-              label="Completed At"
-              fullWidth
-              autoComplete="completed-at"
-              value={state[i].completedAt}
-              onChange={(e) => changeDesc(i, "completedAt", e.target.value) }
-            />
-          </Grid>
-        </Grid>
-      </React.Fragment>
-    );
-  };
+  const [setup,setSetup] = useContext(SetupContext);
+  const [state, setState] = useState(setup.qualification);
+  const [count, setCount] = useState(setup.count);
 
   return (
     <React.Fragment>
-      {renderField()}
+      {count.map((x) => (
+        <span key={x}>
+          <Fields data={state} setValues={(rValue) => setState(rValue)} i={x} />
+        </span>
+      ))}
       <Button
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
         onClick={() => {
-          setState([...state, { deg: "", passOut: "", completedAt: "", id: (state.length) }]);
+          setCount([...count, count.length]);
+          setState([
+            ...state,
+            { deg: "", passOut: "", completedAt: "", id: state.length - 1 },
+          ]);
         }}
       >
         + Add Qualification
       </Button>
+
+      <div className={classes.buttons}>
+        <Button onClick={handleBack} className={classes.button}>
+          Back
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={()=>{
+            setSetup({...setup, qualification: state, count: count})
+            handleNext();
+          }}
+          className={classes.button}
+        >
+          Next
+        </Button>
+      </div>
     </React.Fragment>
   );
 }
+
+export default QualificationForm;

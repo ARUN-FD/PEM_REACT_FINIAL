@@ -1,28 +1,34 @@
-  
-import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import React, { useContext, useEffect, useState } from "react";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import { SetupContext } from "../../Services/setUpContext/setUpContext";
 
-export default function AddressForm() {
-  const [state, setState] = useState({
-    address1: "",
-    address2: "",
-    area: "",
-    city: "",
-    state: "",
-    country: "",
-    pincode: ""
-  })
+const useStyles = makeStyles((theme) => ({
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
+}));
+
+export default function AddressForm({ handleNext }) {
+  const classes = useStyles();
+  const [setup, setSetup] = useContext(SetupContext);
+  const [state, setState] = useState(setup.address);
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
       <Grid container spacing={3}>
-      <Grid item xs={12}>
+        <Grid item xs={12}>
           <TextField
             required
             id="address1"
@@ -30,7 +36,10 @@ export default function AddressForm() {
             label="Address line 1"
             fullWidth
             autoComplete="address-line1"
-            onChange={(e)=>{setState({ ...state, address1: e.target.value })}}
+            value={state.address1}
+            onChange={(e) => {
+              setState({ ...state, address1: e.target.value });
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -40,7 +49,10 @@ export default function AddressForm() {
             label="Address line 2"
             fullWidth
             autoComplete="address-line2"
-            onChange={(e)=>{setState({ ...state, address2: e.target.value })}}
+            value={state.address2 && state.address2}
+            onChange={(e) => {
+              setState({ ...state, address2: e.target.value });
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -51,7 +63,10 @@ export default function AddressForm() {
             label="Area"
             fullWidth
             autoComplete="area-name"
-            onChange={(e)=>{setState({ ...state, area: e.target.value })}}
+            value={state.area && state.area}
+            onChange={(e) => {
+              setState({ ...state, area: e.target.value });
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -62,7 +77,10 @@ export default function AddressForm() {
             label="City"
             fullWidth
             autoComplete="city-name"
-            onChange={(e)=>{setState({ ...state, city: e.target.value })}}
+            value={state.city && state.city}
+            onChange={(e) => {
+              setState({ ...state, city: e.target.value });
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -73,7 +91,10 @@ export default function AddressForm() {
             label="State"
             fullWidth
             autoComplete="state-name"
-            onChange={(e)=>{setState({ ...state, state: e.target.value })}}
+            value={state.state && state.state}
+            onChange={(e) => {
+              setState({ ...state, state: e.target.value });
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -84,7 +105,10 @@ export default function AddressForm() {
             label="Country"
             fullWidth
             autoComplete="country-name"
-            onChange={(e)=>{setState({ ...state, country: e.target.value })}}
+            value={state.country && state.country}
+            onChange={(e) => {
+              setState({ ...state, country: e.target.value });
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -95,10 +119,28 @@ export default function AddressForm() {
             label="Zip / Postal code"
             fullWidth
             autoComplete="pincode"
-            onChange={(e)=>{setState({ ...state, pincode: e.target.value })}}
+            value={state.pincode && state.pincode}
+            onChange={(e) => {
+              setState({ ...state, pincode: e.target.value });
+            }}
           />
         </Grid>
       </Grid>
+      <React.Fragment>
+        <div
+          className={classes.buttons}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={()=> {
+              setSetup({...setup, address: state});
+              handleNext();
+            }}
+            className={classes.button}
+          >Next</Button>
+        </div>
+      </React.Fragment>
     </React.Fragment>
   );
 }

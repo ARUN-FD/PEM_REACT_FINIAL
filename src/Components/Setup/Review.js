@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
+import { SetupContext, SetUpContext } from '../../Services/setUpContext/setUpContext';
 
 const products = [
   { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
@@ -35,33 +36,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Review() {
   const classes = useStyles();
+  const [setup,setSetup] = useContext(SetupContext);
 
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Order summary
+        Person Info Summary
       </Typography>
+      <Grid item xs={12}>
+        <Typography variant={"p"} style={{float: 'left'}}>
+          <b>Qualification Details</b>
+        </Typography>
+      </Grid>
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
+        {setup.qualification.map((setup,i) => (
+          <ListItem className={classes.listItem} key={i}>
+            <ListItemText primary={setup.deg} secondary={setup.completedAt} />
+            <Typography variant="body2">{setup.passOut}</Typography>
           </ListItem>
         ))}
-        <ListItem className={classes.listItem}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
-            $34.06
-          </Typography>
-        </ListItem>
       </List>
+      <Grid item xs={12}>
+        <Typography variant={"p"} style={{float: 'left'}}>
+          <b>Work Details</b>
+        </Typography>
+      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
-            Shipping
+            Company Details
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
+          <Typography gutterBottom>{setup.work.workInfo.company}</Typography>
+          <Typography gutterBottom>{setup.work.workInfo.location.area}, {setup.work.workInfo.location.city}, {setup.work.workInfo.location.state}, {setup.work.workInfo.location.country}, {setup.work.workInfo.location.pincode}</Typography>
+          <Typography gutterBottom>{setup.work.workInfo.department} - {setup.work.workInfo.designation}</Typography>
+          <Typography gutterBottom>{setup.work.workInfo.role}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
