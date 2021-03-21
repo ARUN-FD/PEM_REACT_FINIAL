@@ -6,12 +6,12 @@ import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router";
 import { signUpFun } from "../../Services/APIservices";
+import FiberNewTwoToneIcon from '@material-ui/icons/FiberNewTwoTone';
 
 const Copyright = () => {
   return (
@@ -62,8 +62,11 @@ const Register = () => {
     let response;
     try {
       response = await signUpFun(JSON.stringify(state));
+      console.log(response);
       if (response.success) {
-        localStorage.setItem("token", "response.token");
+        console.log(response.data.token)
+        localStorage.setItem("token", response.data.token);
+        History.push("/checkout");
       }
     } catch (e) {
       console.log(e);
@@ -75,7 +78,7 @@ const Register = () => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <FiberNewTwoToneIcon  />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -152,7 +155,6 @@ const Register = () => {
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"

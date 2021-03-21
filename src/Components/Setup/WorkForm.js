@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -8,6 +8,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import { Input } from "@material-ui/core";
 import Select from "react-select";
+import { SetupContext } from "../../Services/setUpContext/setUpContext";
+import { workFun } from "../../Services/APIservices";
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -21,39 +23,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function WorkForm({ handleBack, handleNext }) {
+  const [setup, setSetup] = useContext(SetupContext);
+  const [state, setState] = useState(setup);
   const classes = useStyles();
-  const dates = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "26",
-    "27",
-    "28",
-    "29",
-    "30",
-  ];
+
+  const workUpdate = async() => {
+    let response;
+    try{
+      response = await workFun({
+        workInfo: state.workInfo,
+        monthlyIncome: state.monthlyIncome,
+        availableBalance: state.availableBalance,
+        salaryDate: state.salaryDate
+      });
+      if(response.success){
+        handleNext();
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -68,6 +59,16 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="company full name"
             fullWidth
             autoComplete="company name"
+            value={state.workInfo.company}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  company: e.target.value
+                }
+              })
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -78,6 +79,19 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="company located country"
             fullWidth
             autoComplete="company-location-country"
+            value={state.workInfo.location.country}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  location:{
+                    ...state.workInfo.location,
+                    country: e.target.value
+                  }
+                }
+              })
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -88,6 +102,19 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="company located state"
             fullWidth
             autoComplete="company-location-state"
+            value={state.workInfo.location.state}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  location:{
+                    ...state.workInfo.location,
+                    state: e.target.value
+                  }
+                }
+              })
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -98,6 +125,19 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="company located city"
             fullWidth
             autoComplete="company-location-city"
+            value={state.workInfo.location.city}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  location:{
+                    ...state.workInfo.location,
+                    city: e.target.value
+                  }
+                }
+              })
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -108,6 +148,19 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="company location area"
             fullWidth
             autoComplete="company-location-area"
+            value={state.workInfo.location.area}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  location:{
+                    ...state.workInfo.location,
+                    area: e.target.value
+                  }
+                }
+              })
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -118,6 +171,19 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="company located postal code"
             fullWidth
             autoComplete="compnay-location-pincode"
+            value={state.workInfo.location.pincode}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  location:{
+                    ...state.workInfo.location,
+                    pincode: e.target.value
+                  }
+                }
+              })
+            }}
           />
         </Grid>
 
@@ -129,6 +195,16 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="department name"
             fullWidth
             autoComplete="department"
+            value={state.workInfo.department}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  department: e.target.value
+                }
+              })
+            }}
           />
         </Grid>
 
@@ -140,6 +216,16 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="designation name"
             fullWidth
             autoComplete="designation"
+            value={state.workInfo.designation}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  designation: e.target.value
+                }
+              })
+            }}
           />
         </Grid>
 
@@ -151,15 +237,25 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="role name"
             fullWidth
             autoComplete="role"
+            value={state.workInfo.role}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  role: e.target.value
+                }
+              })
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-        <Typography variant="p" gutterBottom style={{float: 'left'}}>
+        <Typography variant="subtitle1" gutterBottom style={{float: 'left'}}>
         Joined-At
       </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
-        <Typography variant="p" gutterBottom style={{float: 'left'}}>
+        <Typography variant="subtitle1" gutterBottom style={{float: 'left'}}>
         Salary Date
       </Typography>
         </Grid>
@@ -171,6 +267,16 @@ export default function WorkForm({ handleBack, handleNext }) {
             type={"date"}
             fullWidth
             autoComplete="joined-At"
+            value={state.workInfo.joinedAt}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                workInfo: {
+                  ...state.workInfo,
+                  joinedAt: e.target.value
+                }
+              })
+            }}
           />
         </Grid>
 
@@ -208,6 +314,13 @@ export default function WorkForm({ handleBack, handleNext }) {
               { value: "29", label: "29" },
               { value: "30", label: "30" },
             ]}
+            value={{key:state.salaryDate?state.salaryDate:1, label: state.salaryDate?state.salaryDate:1}}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                salaryDate: e.value
+              })
+            }}
           />
         </Grid>
 
@@ -219,6 +332,13 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="monthly income"
             fullWidth
             autoComplete="salary"
+            value={state.monthlyIncome}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                monthlyIncome: e.target.value
+              })
+            }}
           />
         </Grid>
 
@@ -230,6 +350,13 @@ export default function WorkForm({ handleBack, handleNext }) {
             helperText="available amount"
             fullWidth
             autoComplete="balance"
+            value={state.availableBalance}
+            onChange={(e)=>{
+              setState({
+                ...state,
+                availableBalance: e.target.value
+              })
+            }}
           />
         </Grid>
       </Grid>
@@ -240,7 +367,11 @@ export default function WorkForm({ handleBack, handleNext }) {
         <Button
           variant="contained"
           color="primary"
-          onClick={handleNext}
+          onClick={()=>{
+            setSetup({...setup, ...state})
+            workUpdate();
+            console.log(state);
+            }}
           className={classes.button}
         >
           Next

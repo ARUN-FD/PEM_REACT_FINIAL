@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { Card } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
 
-const Fields = ({ i, setValues, data }) => {
+const Fields = ({ i, setValues, data, remove }) => {
   const [value, setValue] = useState(data[i]);
 
   useEffect(() => {
@@ -65,6 +65,24 @@ const Fields = ({ i, setValues, data }) => {
           />
         </Grid>
       </Grid>
+      {i!==0 && (
+        <button
+        style={{
+          width: "20px",
+          height: "20px",
+          background: "#d3d3d3",
+          border: "1px solid black",
+          padding: "2px",
+          borderRadius: "10px",
+          position: "relative",
+          top: "-175px",
+          left: "260px",
+        }}
+        onClick={()=>{remove(i)}}
+      >
+        X
+      </button>
+      )}
     </Card>
   );
 };

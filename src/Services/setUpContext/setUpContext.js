@@ -1,41 +1,60 @@
-import React from 'react';
+import React, { useCallback, useEffect } from "react";
+import { profile } from "../APIservices";
 
 const initialState = {
-    address: {
-        address1: "",
-        address2: "",
-        area: "",
-        city: "",
-        state: "",
-        country: "",
-        pincode: ""
-      },
-    qualification: [{ deg: "",  passOut: "", completedAt: ""}],
-    count: [0],
-    work: {
-        monthlyIncome: "",
-        availableBalance: "",
-        workInfo: {
-            company: "",
-            location: {
-                country: "",
-                state: "",
-                city: "",
-                area: "",
-                pincode: ""
-            },
-            department: "",
-            designation: "",
-            role: "",
-            joinedAt: ""
-        },
-        salaryDate: ""
-    }
+  address: {
+    address1: "",
+    address2: "",
+    area: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+  },
+  qualification: [{ deg: "", passOut: "", completedAt: "" }],
+  count: [0],
+  monthlyIncome: "",
+  availableBalance: "",
+  salaryDate: "",
+  workInfo: {
+    company: "",
+    location: {
+      country: "",
+      state: "",
+      city: "",
+      area: "",
+      pincode: "",
+    },
+    department: "",
+    designation: "",
+    role: "",
+    joinedAt: "",
+  },
 };
 export const SetupContext = React.createContext(initialState);
 
-export default ({children}) => {
+export default ({ children }) => {
   const [setup, setSetup] = React.useState(initialState);
+
+  const getProfile = async () => {
+    try {
+      let response = await profile();
+      if (response.success) {
+        setSetup({
+          ...setup,
+          ...response.data,
+          count: response.data.qualification.map((x, i) => i),
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <SetupContext.Provider value={[setup, setSetup]}>
       {children}

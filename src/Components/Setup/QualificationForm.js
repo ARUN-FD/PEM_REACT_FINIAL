@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Fields from "./Fields";
 import { SetupContext } from "../../Services/setUpContext/setUpContext";
+import { qualificationFun } from "../../Services/APIservices";
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -38,11 +39,33 @@ const QualificationForm = ({handleNext,handleBack}) => {
   const [state, setState] = useState(setup.qualification);
   const [count, setCount] = useState(setup.count);
 
+  const qualificationUpdate = async() => {
+    let response;
+    try{
+      response = await qualificationFun(state);
+      if(response.success){
+        handleNext();
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
+  useEffect(()=>{
+    console.log(count,"count")
+  },[count]);
+
+  const removeValue = (i) => {
+    setState(state.filter((x,j)=>{ return j !== i }))
+    setCount(count.filter((x,k)=>{ return k !== (count.length-1)}));
+  }
+
   return (
     <React.Fragment>
       {count.map((x) => (
         <span key={x}>
-          <Fields data={state} setValues={(rValue) => setState(rValue)} i={x} />
+          <Fields data={state} setValues={(rValue) => setState(rValue)} remove={removeValue} i={x} />
         </span>
       ))}
       <Button
@@ -69,8 +92,8 @@ const QualificationForm = ({handleNext,handleBack}) => {
           variant="contained"
           color="primary"
           onClick={()=>{
-            setSetup({...setup, qualification: state, count: count})
-            handleNext();
+            setSetup({...setup, qualification: state, count: count});
+            qualificationUpdate();
           }}
           className={classes.button}
         >

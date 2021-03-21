@@ -7,7 +7,6 @@ import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
-import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./AddressForm";
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Checkout() {
-  const steps = ["Address", "Qualification", "Work", "Review your Details"];
+  const steps = ["Address", "Qualification", "Work", "Review"];
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [values, setValues] = React.useState({
@@ -94,7 +93,7 @@ export default function Checkout() {
       case 2:
         return <PaymentForm handleNext={handleNext} handleBack={handleBack} />;
       case 3:
-        return <Review />;
+        return <Review handleBack={handleBack} />;
       default:
         throw new Error("Unknown step");
     }
@@ -106,23 +105,6 @@ export default function Checkout() {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-  };
-
-  const setQualification = (data, field) => {
-    if (field === "state") {
-      setValues({ ...values, qualification: [...data] });
-    }
-    if (field === "count") {
-      setValues({ ...values, count: [...data] });
-    }
-  };
-
-  const setWork = (data) => {
-    setValues({ ...values, work: [...data] });
-  };
-
-  const setAddress = (data) => {
-    setValues({ ...values, address: data });
   };
 
   const handleBack = () => {
@@ -146,8 +128,13 @@ export default function Checkout() {
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+              <Step
+                style={{ maxWidth: `${window.innerWidth / 4 - 20}px` }}
+                key={label}
+              >
+                <StepLabel>
+                  {window.innerWidth > 500 ? label : ""}
+                </StepLabel>
               </Step>
             ))}
           </Stepper>
@@ -163,7 +150,9 @@ export default function Checkout() {
                   shipped.
                 </Typography>
               </React.Fragment>
-            ) : (<SetupContext>{getStepContent(activeStep)}</SetupContext>)}
+            ) : (
+              <SetupContext>{getStepContent(activeStep)}</SetupContext>
+            )}
           </React.Fragment>
         </Paper>
         <Copyright />

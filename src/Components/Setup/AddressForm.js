@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { SetupContext } from "../../Services/setUpContext/setUpContext";
+import { addressFun } from '../../Services/APIservices';
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -21,6 +22,23 @@ export default function AddressForm({ handleNext }) {
   const classes = useStyles();
   const [setup, setSetup] = useContext(SetupContext);
   const [state, setState] = useState(setup.address);
+
+  useEffect(()=>{
+    setState(setup.address);
+  },[setup])
+
+  const addressUpdate = async() => {
+    let response;
+    try{
+      response = await addressFun(state);
+      if(response.success){
+        handleNext();
+      }
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
 
   return (
     <React.Fragment>
@@ -134,8 +152,8 @@ export default function AddressForm({ handleNext }) {
             variant="contained"
             color="primary"
             onClick={()=> {
+              addressUpdate();
               setSetup({...setup, address: state});
-              handleNext();
             }}
             className={classes.button}
           >Next</Button>
