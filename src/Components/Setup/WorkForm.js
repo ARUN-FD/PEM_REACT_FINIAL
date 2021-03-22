@@ -27,23 +27,22 @@ export default function WorkForm({ handleBack, handleNext }) {
   const [state, setState] = useState(setup);
   const classes = useStyles();
 
-  const workUpdate = async() => {
+  const workUpdate = async () => {
     let response;
-    try{
+    try {
       response = await workFun({
         workInfo: state.workInfo,
         monthlyIncome: state.monthlyIncome,
         availableBalance: state.availableBalance,
-        salaryDate: state.salaryDate
+        salaryDate: state.salaryDate,
       });
-      if(response.success){
+      if (response.success) {
         handleNext();
       }
-    }
-    catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -60,14 +59,14 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="company name"
             value={state.workInfo.company}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  company: e.target.value
-                }
-              })
+                  company: e.target.value,
+                },
+              });
             }}
           />
         </Grid>
@@ -80,17 +79,17 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="company-location-country"
             value={state.workInfo.location.country}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  location:{
+                  location: {
                     ...state.workInfo.location,
-                    country: e.target.value
-                  }
-                }
-              })
+                    country: e.target.value,
+                  },
+                },
+              });
             }}
           />
         </Grid>
@@ -103,17 +102,17 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="company-location-state"
             value={state.workInfo.location.state}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  location:{
+                  location: {
                     ...state.workInfo.location,
-                    state: e.target.value
-                  }
-                }
-              })
+                    state: e.target.value,
+                  },
+                },
+              });
             }}
           />
         </Grid>
@@ -126,17 +125,17 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="company-location-city"
             value={state.workInfo.location.city}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  location:{
+                  location: {
                     ...state.workInfo.location,
-                    city: e.target.value
-                  }
-                }
-              })
+                    city: e.target.value,
+                  },
+                },
+              });
             }}
           />
         </Grid>
@@ -149,17 +148,17 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="company-location-area"
             value={state.workInfo.location.area}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  location:{
+                  location: {
                     ...state.workInfo.location,
-                    area: e.target.value
-                  }
-                }
-              })
+                    area: e.target.value,
+                  },
+                },
+              });
             }}
           />
         </Grid>
@@ -172,17 +171,17 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="compnay-location-pincode"
             value={state.workInfo.location.pincode}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  location:{
+                  location: {
                     ...state.workInfo.location,
-                    pincode: e.target.value
-                  }
-                }
-              })
+                    pincode: e.target.value,
+                  },
+                },
+              });
             }}
           />
         </Grid>
@@ -196,14 +195,14 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="department"
             value={state.workInfo.department}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  department: e.target.value
-                }
-              })
+                  department: e.target.value,
+                },
+              });
             }}
           />
         </Grid>
@@ -217,14 +216,14 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="designation"
             value={state.workInfo.designation}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  designation: e.target.value
-                }
-              })
+                  designation: e.target.value,
+                },
+              });
             }}
           />
         </Grid>
@@ -238,90 +237,106 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="role"
             value={state.workInfo.role}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
                 workInfo: {
                   ...state.workInfo,
-                  role: e.target.value
-                }
-              })
+                  role: e.target.value,
+                },
+              });
             }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-        <Typography variant="subtitle1" gutterBottom style={{float: 'left'}}>
-        Joined-At
-      </Typography>
+          <Grid item xs={12}>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              style={{ float: "left" }}
+            >
+              Joined-At
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Input
+              required
+              id="joinedAt"
+              label="Joined At"
+              type={"date"}
+              fullWidth
+              autoComplete="joined-At"
+              value={state.workInfo.joinedAt}
+              onChange={(e) => {
+                setState({
+                  ...state,
+                  workInfo: {
+                    ...state.workInfo,
+                    joinedAt: e.target.value,
+                  },
+                });
+              }}
+            />
+          </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-        <Typography variant="subtitle1" gutterBottom style={{float: 'left'}}>
-        Salary Date
-      </Typography>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Input
-            required
-            id="joinedAt"
-            label="Joined At"
-            type={"date"}
-            fullWidth
-            autoComplete="joined-At"
-            value={state.workInfo.joinedAt}
-            onChange={(e)=>{
-              setState({
-                ...state,
-                workInfo: {
-                  ...state.workInfo,
-                  joinedAt: e.target.value
-                }
-              })
-            }}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Select
-            options={[
-              { value: "01", label: "01" },
-              { value: "02", label: "02" },
-              { value: "03", label: "03" },
-              { value: "04", label: "04" },
-              { value: "05", label: "05" },
-              { value: "06", label: "06" },
-              { value: "07", label: "07" },
-              { value: "08", label: "08" },
-              { value: "09", label: "09" },
-              { value: "10", label: "10" },
-              { value: "11", label: "11" },
-              { value: "12", label: "12" },
-              { value: "13", label: "13" },
-              { value: "14", label: "14" },
-              { value: "15", label: "15" },
-              { value: "16", label: "16" },
-              { value: "17", label: "17" },
-              { value: "18", label: "18" },
-              { value: "19", label: "19" },
-              { value: "20", label: "20" },
-              { value: "21", label: "21" },
-              { value: "22", label: "22" },
-              { value: "23", label: "23" },
-              { value: "24", label: "24" },
-              { value: "25", label: "25" },
-              { value: "26", label: "26" },
-              { value: "27", label: "27" },
-              { value: "28", label: "28" },
-              { value: "29", label: "29" },
-              { value: "30", label: "30" },
-            ]}
-            value={{key:state.salaryDate?state.salaryDate:1, label: state.salaryDate?state.salaryDate:1}}
-            onChange={(e)=>{
-              setState({
-                ...state,
-                salaryDate: e.value
-              })
-            }}
-          />
+          <Grid item xs={12}>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              style={{ float: "left", width: '100%' }}
+            >
+              <span style={{float: 'left'}}>
+              Salary Date
+              </span>
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Select
+              options={[
+                { value: "01", label: "01" },
+                { value: "02", label: "02" },
+                { value: "03", label: "03" },
+                { value: "04", label: "04" },
+                { value: "05", label: "05" },
+                { value: "06", label: "06" },
+                { value: "07", label: "07" },
+                { value: "08", label: "08" },
+                { value: "09", label: "09" },
+                { value: "10", label: "10" },
+                { value: "11", label: "11" },
+                { value: "12", label: "12" },
+                { value: "13", label: "13" },
+                { value: "14", label: "14" },
+                { value: "15", label: "15" },
+                { value: "16", label: "16" },
+                { value: "17", label: "17" },
+                { value: "18", label: "18" },
+                { value: "19", label: "19" },
+                { value: "20", label: "20" },
+                { value: "21", label: "21" },
+                { value: "22", label: "22" },
+                { value: "23", label: "23" },
+                { value: "24", label: "24" },
+                { value: "25", label: "25" },
+                { value: "26", label: "26" },
+                { value: "27", label: "27" },
+                { value: "28", label: "28" },
+                { value: "29", label: "29" },
+                { value: "30", label: "30" },
+              ]}
+              value={{
+                key: state.salaryDate ? state.salaryDate : 1,
+                label: state.salaryDate ? state.salaryDate : 1,
+              }}
+              onChange={(e) => {
+                setState({
+                  ...state,
+                  salaryDate: e.value,
+                });
+              }}
+            />
+          </Grid>
         </Grid>
 
         <Grid item xs={12} md={6}>
@@ -333,11 +348,11 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="salary"
             value={state.monthlyIncome}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
-                monthlyIncome: e.target.value
-              })
+                monthlyIncome: e.target.value,
+              });
             }}
           />
         </Grid>
@@ -351,11 +366,11 @@ export default function WorkForm({ handleBack, handleNext }) {
             fullWidth
             autoComplete="balance"
             value={state.availableBalance}
-            onChange={(e)=>{
+            onChange={(e) => {
               setState({
                 ...state,
-                availableBalance: e.target.value
-              })
+                availableBalance: e.target.value,
+              });
             }}
           />
         </Grid>
@@ -367,11 +382,11 @@ export default function WorkForm({ handleBack, handleNext }) {
         <Button
           variant="contained"
           color="primary"
-          onClick={()=>{
-            setSetup({...setup, ...state})
+          onClick={() => {
+            setSetup({ ...setup, ...state });
             workUpdate();
             console.log(state);
-            }}
+          }}
           className={classes.button}
         >
           Next

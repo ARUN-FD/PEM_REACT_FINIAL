@@ -122,8 +122,8 @@ export default function UserProfile() {
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Update Profile</Button>
-              <Button color="primary" onClick={()=> History.push("/checkOut")}>Update More Details</Button>
+              <Button color="primary">Update</Button>
+              <Button color="primary" onClick={()=> History.push("/checkOut")}>More Details</Button>
             </CardFooter>
           </Card>
         </GridItem>

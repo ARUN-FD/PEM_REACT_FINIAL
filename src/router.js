@@ -26,7 +26,7 @@ const Routers = () => {
         path="/"
         component={() => {
           return token === "" ? (
-            <Redirect to="/dashboard" />
+            <Redirect to="/user/dashboard" />
           ) : (
             <Redirect to="/login" />
           );
