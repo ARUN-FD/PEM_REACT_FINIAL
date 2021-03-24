@@ -63,7 +63,7 @@ const Login = () => {
       response = await signInFun(JSON.stringify(state));
       if(response.success){
         localStorage.setItem("token", response.data.token);
-        History.push("/dashboard");
+        History.push("/user/dashboard");
       }
     }catch(e){
       console.log(e);

@@ -1,43 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
-import Quote from "../../components/Typography/Quote.js";
-import Muted from "../../components/Typography/Muted.js";
-import Primary from "../../components/Typography/Primary.js";
-import Info from "../../components/Typography/Info.js";
-import Success from "../../components/Typography/Success.js";
-import Warning from "../../components/Typography/Warning.js";
-import Danger from "../../components/Typography/Danger.js";
+import GridItem from "../../components/Grid/GridItem.js";
+import GridContainer from "../../components/Grid/GridContainer.js";
+import Table from "../../components/Table/Table.js";
 import Card from "../../components/Card/Card.js";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import CardHeader from "../../components/Card/CardHeader.js";
 import CardBody from "../../components/Card/CardBody.js";
+import Button from "../../components/CustomButtons/Button.js";
+import Grid from "@material-ui/core/Grid";
+import { createRemainder } from "../../../../Services/APIservices.js";
 
 const styles = {
-  typo: {
-    paddingLeft: "25%",
-    marginBottom: "40px",
-    position: "relative"
-  },
-  note: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    bottom: "10px",
-    color: "#c0c1c2",
-    display: "block",
-    fontWeight: "400",
-    fontSize: "13px",
-    lineHeight: "13px",
-    left: "0",
-    marginLeft: "20px",
-    position: "absolute",
-    width: "260px"
-  },
   cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0"
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0",
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF",
+    },
   },
   cardTitleWhite: {
     color: "#FFFFFF",
@@ -46,117 +35,228 @@ const styles = {
     fontWeight: "300",
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+    "& small": {
+      color: "#777",
+      fontSize: "65%",
+      fontWeight: "400",
+      lineHeight: "1",
+    },
+  },
 };
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles((theme) => ({
+  ...styles,
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+    width: '100%'
+  },
+  layout: {
+    width: "auto",
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
+}));
 
-export default function TypographyPage() {
+export default function Typographys() {
   const classes = useStyles();
+  const [show, setShow] = useState(false);
+  const [state, setState] = useState({
+    name:"",
+    expectAmount:"",
+    products:"",
+    date:"",
+    description:""
+  });
+
+  const remainderCreate = async() => {
+    let response;
+    try{
+      response = await createRemainder({...state, products: state.products.split(" ")});
+      console.log(response);
+      if(response.success){
+        setShow(false);
+      }
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
+
   return (
-    <Card>
-      <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>Material Dashboard Heading</h4>
-        <p className={classes.cardCategoryWhite}>
-          Created using Roboto Font Family
-        </p>
-      </CardHeader>
-      <CardBody>
-        <div className={classes.typo}>
-          <div className={classes.note}>Header 1</div>
-          <h1>The Life of Material Dashboard</h1>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Header 2</div>
-          <h2>The Life of Material Dashboard</h2>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Header 3</div>
-          <h3>The Life of Material Dashboard</h3>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Header 4</div>
-          <h4>The Life of Material Dashboard</h4>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Header 5</div>
-          <h5>The Life of Material Dashboard</h5>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Header 6</div>
-          <h6>The Life of Material Dashboard</h6>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Paragraph</div>
-          <p>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers. I understand culture. I am
-            the nucleus. I think that’s a responsibility that I have, to push
-            possibilities, to show people, this is the level that things could
-            be at.
-          </p>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Quote</div>
-          <Quote
-            text="I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at."
-            author=" Kanye West, Musician"
-          />
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Muted Text</div>
-          <Muted>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers...
-          </Muted>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Primary Text</div>
-          <Primary>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers...
-          </Primary>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Info Text</div>
-          <Info>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers...
-          </Info>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Success Text</div>
-          <Success>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers...
-          </Success>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Warning Text</div>
-          <Warning>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers...
-          </Warning>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Danger Text</div>
-          <Danger>
-            I will be the leader of a company that ends up being worth billions
-            of dollars, because I got the answers...
-          </Danger>
-        </div>
-        <div className={classes.typo}>
-          <div className={classes.note}>Small Tag</div>
-          <h2>
-            Header with small subtitle
-            <br />
-            <small>
-              Use {'"'}Small{'"'} tag for the headers
-            </small>
-          </h2>
-        </div>
-      </CardBody>
-    </Card>
+    <GridContainer>
+      {show ? (
+        <main className={classes.main}>
+        <Paper className={classes.paper}>
+          <Typography variant="h6" gutterBottom>
+            Add Remainder
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="name"
+                name="name"
+                label="Remainder Name"
+                fullWidth
+                autoComplete="Remainder name"
+                value={state.name}
+                onChange={(e) => {
+                  setState({ ...state, name: e.target.value });
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="amount"
+                name="amount"
+                label="Expected Amount"
+                fullWidth
+                autoComplete="amount"
+                value={`${state.expectAmount}`}
+                onChange={(e) => {
+                  setState({ ...state, expectAmount: parseInt(e.target.value) });
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="products"
+                name="products"
+                label="Products"
+                fullWidth
+                autoComplete="products-name"
+                value={state.products}
+                onChange={(e) => {
+                  setState({ ...state, products: e.target.value });
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                type={"date"}
+                id="date"
+                name="date"
+                label="Date"
+                fullWidth
+                autoComplete="date"
+                value={state.date}
+                onChange={(e) => {
+                  setState({ ...state, date: e.target.value });
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="description"
+                name="description"
+                label="Description"
+                fullWidth
+                autoComplete="description"
+                value={state.description}
+                onChange={(e) => {
+                  setState({ ...state, description: e.target.value });
+                }}
+              />
+            </Grid>
+          </Grid>
+          <React.Fragment>
+            <div className={classes.buttons}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={remainderCreate}
+                className={classes.button}
+              >
+                Save
+              </Button>
+            </div>
+            <div className={classes.buttons}>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {setShow(false)}}
+                className={classes.button}
+              >
+                Cancel
+              </Button>
+            </div>
+          </React.Fragment>
+        </Paper>
+        </main>
+      ) : (
+        <React.Fragment>
+          <GridItem xs={12} sm={12} md={12}>
+            <Card>
+              <CardHeader color="primary">
+                <h4 className={classes.cardTitleWhite}>Your Remainders</h4>
+                <p className={classes.cardCategoryWhite}>
+                  Here is a details of Remainders
+                </p>
+              </CardHeader>
+              <CardBody>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["Name", "Country", "City", "Salary"]}
+                  tableData={[
+                    ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
+                    ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
+                    ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
+                    [
+                      "Philip Chaney",
+                      "Korea, South",
+                      "Overland Park",
+                      "$38,735",
+                    ],
+                    [
+                      "Doris Greene",
+                      "Malawi",
+                      "Feldkirchen in Kärnten",
+                      "$63,542",
+                    ],
+                    ["Mason Porter", "Chile", "Gloucester", "$78,615"],
+                  ]}
+                />
+              </CardBody>
+            </Card>
+          </GridItem>
+          <GridItem xs={12}>
+            <Button
+              color={"primary"}
+              onClick={() => {
+                setShow(true);
+              }}
+            >
+              Add Remainder
+            </Button>
+          </GridItem>
+        </React.Fragment>
+      )}
+    </GridContainer>
   );
 }

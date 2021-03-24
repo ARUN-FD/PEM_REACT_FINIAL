@@ -13,9 +13,11 @@ const initialState = {
   },
   qualification: [{ deg: "", passOut: "", completedAt: "" }],
   count: [0],
-  monthlyIncome: "",
-  availableBalance: "",
-  salaryDate: "",
+  monthlyIncome: 0,
+  availableBalance: 0,
+  monthExpense: 0,
+  totalExpense: 0,
+  salaryDate: "01",
   workInfo: {
     company: "",
     location: {

@@ -1,93 +1,110 @@
-import React from "react";
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker
-} from "react-google-maps";
+import React, { useState } from "react";
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+// core components
+import GridItem from "../../components/Grid/GridItem.js";
+import GridContainer from "../../components/Grid/GridContainer.js";
+import Table from "../../components/Table/Table.js";
+import Card from "../../components/Card/Card.js";
+import CardHeader from "../../components/Card/CardHeader.js";
+import CardBody from "../../components/Card/CardBody.js";
+import FontDownload from '@material-ui/icons/CloudDownload';
 
-const CustomSkinMap = withScriptjs(
-  withGoogleMap(() => (
-    <GoogleMap
-      defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
-      defaultOptions={{
-        scrollwheel: false,
-        zoomControl: true,
-        styles: [
-          {
-            featureType: "water",
-            stylers: [
-              { saturation: 43 },
-              { lightness: -11 },
-              { hue: "#0088ff" }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.fill",
-            stylers: [
-              { hue: "#ff0000" },
-              { saturation: -100 },
-              { lightness: 99 }
-            ]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#808080" }, { lightness: 54 }]
-          },
-          {
-            featureType: "landscape.man_made",
-            elementType: "geometry.fill",
-            stylers: [{ color: "#ece2d9" }]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry.fill",
-            stylers: [{ color: "#ccdca1" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#767676" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#ffffff" }]
-          },
-          { featureType: "poi", stylers: [{ visibility: "off" }] },
-          {
-            featureType: "landscape.natural",
-            elementType: "geometry.fill",
-            stylers: [{ visibility: "on" }, { color: "#b8cb93" }]
-          },
-          { featureType: "poi.park", stylers: [{ visibility: "on" }] },
-          {
-            featureType: "poi.sports_complex",
-            stylers: [{ visibility: "on" }]
-          },
-          { featureType: "poi.medical", stylers: [{ visibility: "on" }] },
-          {
-            featureType: "poi.business",
-            stylers: [{ visibility: "simplified" }]
-          }
-        ]
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
+const Logo = ({index}) => {
+  return (<span onClick={()=> console.log(index)}><FontDownload /></span>)
+}
+
+const styles = {
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0",
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF",
+    },
+  },
+  cardTitleWhite: {
+    color: "#FFFFFF",
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+    "& small": {
+      color: "#777",
+      fontSize: "65%",
+      fontWeight: "400",
+      lineHeight: "1",
+    },
+  },
+};
+
+const useStyles = makeStyles((theme) => ({
+  ...styles,
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+    width: "100%",
+  },
+  layout: {
+    width: "auto",
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
+}));
 
 export default function Maps() {
+  const classes = useStyles();
   return (
-    <CustomSkinMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
-      loadingElement={<div style={{ height: `100%` }} />}
-      containerElement={<div style={{ height: `100vh` }} />}
-      mapElement={<div style={{ height: `100%` }} />}
-    />
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>Your Remainders</h4>
+            <p className={classes.cardCategoryWhite}>
+              Here is a details of Remainders
+            </p>
+          </CardHeader>
+          <CardBody>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Month", "Balance", "Total Expense", "expense (%)"]}
+              tableData={[
+                ["02/2020", "10000", "15000", "80", <Logo index={1} />],
+                ["03/2020", "18000", "18000", "90", <Logo index={1} />],
+                ["04/2020", "20000", "14000", "85", <Logo index={1} />],
+                ["05/2020", "24000", "19000", "86", <Logo index={1} />],
+                ["06/2020", "34000", "10000", "60", <Logo index={1} />],
+                ["07/2020", "30000", "24000", "90", <Logo index={1} />],
+              ]}
+            />
+          </CardBody>
+        </Card>
+      </GridItem>
+    </GridContainer>
   );
 }

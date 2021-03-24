@@ -133,3 +133,61 @@ export const verifyFun = async(body) => {
     console.log(e);
   }
 }
+
+
+export const createExpense = async(body) => {
+  let response;
+  let token = localStorage.getItem("token");
+  try{
+    response = await Axios.post("/expense/create",body,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    })
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const createRegular = async(body) => {
+  let response;
+  let token = localStorage.getItem("token");
+  try{
+    response = await Axios.post("/regular/create",body,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    })
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const createRemainder = async(body) => {
+  let response;
+  let token = localStorage.getItem("token");
+  try{
+    response = await Axios.post("/remainder/create",body,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}

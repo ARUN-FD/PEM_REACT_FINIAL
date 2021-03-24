@@ -43,6 +43,9 @@ const styles = {
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  card: {
+    minHeight: '620px'
   }
 };
 
@@ -121,97 +124,20 @@ export default function Notifications() {
     }
   };
   return (
-    <Card>
+    <Card className={classes.card}>
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Notifications</h4>
-        <p className={classes.cardCategoryWhite}>
-          Handcrafted by our friends from{" "}
-          <a
-            target="_blank"
-            href="https://material-ui-next.com/?ref=creativetime"
-          >
-            Material UI
-          </a>{" "}
-          and styled by{" "}
-          <a
-            target="_blank"
-            href="https://www.creative-tim.com/?ref=mdr-notifications-page"
-          >
-            Creative Tim
-          </a>
-          . Please checkout the{" "}
-          <a href="#pablo" target="_blank">
-            full documentation
-          </a>
-          .
-        </p>
       </CardHeader>
       <CardBody>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <h5>Notifications Style</h5>
+          <GridItem xs={12} sm={12} md={12}>
             <br />
             <SnackbarContent message={"This is a plain notification"} />
-            <SnackbarContent
-              message={"This is a notification with close button."}
-              close
-            />
-            <SnackbarContent
-              message={"This is a notification with close button and icon."}
-              close
-              icon={AddAlert}
-            />
-            <SnackbarContent
-              message={
-                "This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style."
-              }
-              close
-              icon={AddAlert}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
-            <h5>Notifications States</h5>
-            <br />
-            <SnackbarContent
-              message={
-                'INFO - This is a regular notification made with color="info"'
-              }
-              close
-              color="info"
-            />
-            <SnackbarContent
-              message={
-                'SUCCESS - This is a regular notification made with color="success"'
-              }
-              close
-              color="success"
-            />
-            <SnackbarContent
-              message={
-                'WARNING - This is a regular notification made with color="warning"'
-              }
-              close
-              color="warning"
-            />
-            <SnackbarContent
-              message={
-                'DANGER - This is a regular notification made with color="danger"'
-              }
-              close
-              color="danger"
-            />
-            <SnackbarContent
-              message={
-                'PRIMARY - This is a regular notification made with color="primary"'
-              }
-              close
-              color="primary"
-            />
-          </GridItem>
+            </GridItem>
         </GridContainer>
         <br />
         <br />
-        <GridContainer justify="center">
+        {/* <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={6} style={{ textAlign: "center" }}>
             <h5>
               Notifications Places
@@ -339,7 +265,7 @@ export default function Notifications() {
               </GridItem>
             </GridContainer>
           </GridItem>
-        </GridContainer>
+        </GridContainer> */}
       </CardBody>
     </Card>
   );

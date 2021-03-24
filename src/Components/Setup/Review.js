@@ -86,7 +86,7 @@ export default function Review({handleBack}) {
         <Button
           variant="contained"
           color="primary"
-          onClick={()=>{ History.push("/dashboard") }}
+          onClick={()=>{ History.push("/user/dashboard") }}
           className={classes.button}
         >
           Finish Setup

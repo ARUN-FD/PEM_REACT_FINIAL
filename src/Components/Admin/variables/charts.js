@@ -136,15 +136,15 @@ const emailsSubscriptionChart = {
 
 const completedTasksChart = {
   data: {
-    labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-    series: [[230, 750, 450, 300, 280, 240, 200, 190]]
+    labels: ["1", "2", "3", "4", "5", "6", "7", "8","9","10","11","12", "13", "14", "15", "16", "17", "18","19","20","21","22","23","24","25","26","27","28","29","30","31"],
+    series: [[2, 2.5, 5, 3, 2, 7, 9, 0.5, 1, 10]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
     low: 0,
-    high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 10, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,
