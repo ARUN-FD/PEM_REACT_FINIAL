@@ -1,10 +1,12 @@
 import Axios from "axios";
+// const api = "https://pem-back.herokuapp.com/api";
+const api = "http://localhost:3100/api"
 
 export const signInFun = async (body) => {
   console.log("object", body);
   let response;
   try {
-    response = await Axios.post("/user/login", body, {
+    response = await Axios.post(`${api}/user/login`, body, {
       headers: {
         "Content-Type": "application/json",
         //   "Authorization": token,
@@ -21,7 +23,7 @@ export const signInFun = async (body) => {
 export const signUpFun = async (body) => {
   let response;
   try {
-    response = await Axios.post("/user/register", body, {
+    response = await Axios.post(`${api}/user/register`, body, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -39,7 +41,7 @@ export const addressFun = async (body) => {
   let response;
   let token = await localStorage.getItem("token");
   try {
-    response = await Axios.put("/user/address", body, {
+    response = await Axios.put(`${api}/user/address`, body, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${token}`,
@@ -58,7 +60,7 @@ export const qualificationFun = async (body) => {
   let token = await localStorage.getItem("token");
   try {
     response = await Axios.put(
-      "/user/qualification",
+      `${api}/user/qualification`,
       { qualification: body },
       {
         headers: {
@@ -80,7 +82,7 @@ export const workFun = async (body) => {
   let token = await localStorage.getItem("token");
   try {
     response = await Axios.put(
-      "/user/work",
+      `${api}/user/work`,
       body,
       {
         headers: {
@@ -101,7 +103,7 @@ export const profile = async () => {
   let response;
   let token = await localStorage.getItem("token");
   try {
-    response = await Axios.get("/user/profile", {
+    response = await Axios.get(`${api}/user/profile`, {
       headers: {
         "Content-Type": "applicatio/json",
         Authorization: `${token}`,
@@ -119,7 +121,7 @@ export const verifyFun = async(body) => {
   let response;
   let token = localStorage.getItem("token");
   try{
-    response = await Axios.post("/user/verify",body,{
+    response = await Axios.post(`${api}/user/verify`,body,{
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -139,7 +141,7 @@ export const createExpense = async(body) => {
   let response;
   let token = localStorage.getItem("token");
   try{
-    response = await Axios.post("/expense/create",body,{
+    response = await Axios.post(`${api}/expense/create`,body,{
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -158,7 +160,7 @@ export const createRegular = async(body) => {
   let response;
   let token = localStorage.getItem("token");
   try{
-    response = await Axios.post("/regular/create",body,{
+    response = await Axios.post(`${api}/regular/create`,body,{
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -177,7 +179,7 @@ export const createRemainder = async(body) => {
   let response;
   let token = localStorage.getItem("token");
   try{
-    response = await Axios.post("/remainder/create",body,{
+    response = await Axios.post(`${api}/remainder/create`,body,{
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -196,7 +198,7 @@ export const getExpenses = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/expense/getAll", {
+    response = await Axios.get(`${api}/expense/getAll`, {
       headers:{
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -215,7 +217,7 @@ export const getRemainder = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/remainder/getAll", {
+    response = await Axios.get(`${api}/remainder/getAll`, {
       headers:{
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -234,7 +236,7 @@ export const getRegular = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/regular/getAll", {
+    response = await Axios.get(`${api}/regular/getAll`, {
       headers:{
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -253,7 +255,7 @@ export const getHistory = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/history/getAll", {
+    response = await Axios.get(`${api}/history/getAll`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -272,7 +274,7 @@ export const getNotification = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/user/notification", {
+    response = await Axios.get(`${api}/user/notification`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -291,7 +293,7 @@ export const updateProfile = async(body) => {
   let response;
   let token = await localStorage.getItem("token");
   try {
-    response = await Axios.put("/user/update",body, {
+    response = await Axios.put(`${api}/user/update`,body, {
       headers: {
         "Content-Type": "application/json",
         "Authorization":`${token}`
@@ -310,7 +312,7 @@ export const updateExpense = async(body) => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.put("/expense/update", body, {
+    response = await Axios.put(`${api}/expense/update`, body, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -329,7 +331,7 @@ export const updateRemainder = async(body) => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.put("/remainder/update", body, {
+    response = await Axios.put(`${api}/remainder/update`, body, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -348,7 +350,7 @@ export const updateRegular = async(body) => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.put("/regular/update", body, {
+    response = await Axios.put(`${api}/regular/update`, body, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -367,7 +369,7 @@ export const salaryCreate = async(body) => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.post("/salary/create",body, {
+    response = await Axios.post(`${api}/salary/create`,body, {
       headers: {
         "Content-Type": "application/json",
         "Authorization":`${token}`
@@ -386,7 +388,7 @@ export const salaryUpdate = async(body) => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.put("/salary/update", body, {
+    response = await Axios.put(`${api}/salary/update`, body, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -405,7 +407,7 @@ export const getSalary = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/salary/getAll", {
+    response = await Axios.get(`${api}/salary/getAll`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`
@@ -424,7 +426,7 @@ export const getChart = async() => {
   let response;
   let token = await localStorage.getItem("token");
   try{
-    response = await Axios.get("/expense/chart", {
+    response = await Axios.get(`${api}/expense/chart`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `${token}`

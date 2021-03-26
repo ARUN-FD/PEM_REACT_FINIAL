@@ -61,7 +61,7 @@ const Verification = () => {
       response = await verifyFun(state);
       if(response.success){
         localStorage.setItem("token", response.token);
-        History.push("/user/dashboard");
+        History.push("/checkout");
       }
     }catch(e){
       console.log(e);

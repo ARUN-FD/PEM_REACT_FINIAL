@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
   const classes = useStyles();
   const History = useHistory();
+  const [disabled, setDisabled] = useState(false);
   const [state, setState] = useState({
     userName: "",
     firstName: "",
@@ -59,16 +60,19 @@ const Register = () => {
   });
 
   const SignUp = async () => {
+    setDisabled(true);
     let response;
     try {
       response = await signUpFun(JSON.stringify(state));
       console.log(response);
       if (response.success) {
+        setDisabled(false);
         console.log(response.data.token)
         localStorage.setItem("token", response.data.token);
-        History.push("/checkout");
+        History.push("/verify");
       }
     } catch (e) {
+      setDisabled(false);
       console.log(e);
     }
   };
@@ -160,6 +164,7 @@ const Register = () => {
             color="primary"
             className={classes.submit}
             onClick={SignUp}
+            disabled={disabled}
           >
             Sign Up
           </Button>
