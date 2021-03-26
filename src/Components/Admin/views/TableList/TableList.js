@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -13,8 +13,13 @@ import CardHeader from "../../components/Card/CardHeader.js";
 import CardBody from "../../components/Card/CardBody.js";
 import Button from "../../components/CustomButtons/Button.js";
 import Grid from "@material-ui/core/Grid";
-import { createExpense } from "../../../../Services/APIservices.js";
-import {GlobalContext} from '../../../../Services/GlobalContext/GlobalContext';
+import {
+  createExpense,
+  getExpenses,
+  updateExpense
+} from "../../../../Services/APIservices.js";
+import { GlobalContext } from "../../../../Services/GlobalContext/GlobalContext";
+import { Edit } from "@material-ui/icons";
 
 const styles = {
   cardCategoryWhite: {
@@ -55,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
-    width: '100%'
+    width: "100%",
   },
   layout: {
     width: "auto",
@@ -83,169 +88,286 @@ export default function TableList() {
   const classes = useStyles();
   const [State, setState] = useContext(GlobalContext);
   const [show, setShow] = useState(false);
+  const [expense, setExpense] = useState([]);
   const [value, setValue] = useState({
-    name:"",
-    amount:"",
-    balance:"",
-    available:"",
-    expenseType:"REGULAR",
-    products:"",
-    where:{
+    name: "",
+    amount: "",
+    balance: "",
+    available: "",
+    expenseType: "REGULAR",
+    products: "",
+    where: {
       name: "",
       location: {
         city: "",
-        area: ""
-      }
+        area: "",
+      },
     },
-    description: ""
+    description: "",
   });
 
-  const expenseCreate = async() => {
-    let response;
-    let balance = State.availableBalance - value.amount;
-    try{
-      response = await createExpense({...value, products: value.products.split(" "), balance: balance, available: balance});
-      if(response.success){
-        setShow(false);
-        setState({...State, availableBalance: balance});
+  const expenseCreate = async () => {
+    let response, balance;
+    try {
+      if (value._id) {
+        balance = State.availableBalance + value.before - value.amount;
+        response = await updateExpense({
+          ...value,
+          id: value._id,
+          products: value.products.split(" "),
+          balance: balance,
+          available: balance,
+        });
+      } else {
+        balance = State.availableBalance - value.amount;
+        response = await createExpense({
+          ...value,
+          products: value.products.split(" "),
+          balance: balance,
+          available: balance,
+        });
       }
+      if (response.success) {
+        setShow(false);
+        setState({ ...State, availableBalance: balance });
+        setValue({
+          name: "",
+          amount: "",
+          balance: "",
+          available: "",
+          expenseType: "REGULAR",
+          products: "",
+          where: {
+            name: "",
+            location: {
+              city: "",
+              area: "",
+            },
+          },
+          description: "",
+        });
+        getAllExpense();
+      }
+    } catch (e) {
+      console.log(e);
     }
-    catch(e){
-      console.log(e)
+  };
+
+  useEffect(() => {
+    getAllExpense();
+  }, []);
+
+  const getAllExpense = async () => {
+    let response;
+    try {
+      response = await getExpenses();
+      if (response.success) {
+        let datas = [];
+        for (let index = 0; index < response.data.length; index++) {
+          let data = response.data[index];
+          let products = "";
+          data.products.map((x) => {
+            if (products === "") {
+              products = `${x}`;
+            } else {
+              products = `${products} ${x}`;
+            }
+            return null;
+          });
+          datas.push([
+            `${index + 1}`,
+            `${data.name}`,
+            `${data.date}`,
+            `${products}`,
+            `${data.amount}`,
+            `${data.balance}`,
+            `${data.description}`,
+            `${data.where.name}, ${data.where.location.city}, ${data.where.location.area}`,
+            <Edit
+              onClick={() => {
+                setValue({
+                  products: products,
+                  before: data.amount,
+                  name: data.name,
+                  amount: data.amount,
+                  balance: data.balance,
+                  available: data.available,
+                  expenseType: "REGULAR",
+                  where: {
+                    name: data.where.name,
+                    location: {
+                      city: data.where.location.city,
+                      area: data.where.location.area,
+                    },
+                  },
+                  description: data.description,
+                });
+                setShow(true);
+              }}
+            />,
+          ]);
+        }
+        setExpense(datas);
+      }
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   return (
     <GridContainer>
       {show ? (
         <main className={classes.main}>
-        <Paper className={classes.paper}>
-          <Typography variant="h6" gutterBottom>
-            Add Expenses
-          </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="name"
-                name="name"
-                label="Expense Name"
-                fullWidth
-                autoComplete="expense name"
-                value={value.name}
-                onChange={(e) => {
-                  setValue({ ...value, name: e.target.value });
-                }}
-              />
+          <Paper className={classes.paper}>
+            <Typography variant="h6" gutterBottom>
+              Add Expenses
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="name"
+                  name="name"
+                  label="Expense Name"
+                  fullWidth
+                  autoComplete="expense name"
+                  value={value.name}
+                  onChange={(e) => {
+                    setValue({ ...value, name: e.target.value });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="amount"
+                  name="amount"
+                  label="Amount"
+                  fullWidth
+                  autoComplete="amount"
+                  value={`${value.amount}`}
+                  onChange={(e) => {
+                    setValue({ ...value, amount: parseInt(e.target.value) });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="products"
+                  name="products"
+                  label="Products"
+                  fullWidth
+                  autoComplete="products-name"
+                  value={value.products}
+                  onChange={(e) => {
+                    setValue({ ...value, products: e.target.value });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="storeName"
+                  name="storeName"
+                  label="Store Name"
+                  fullWidth
+                  autoComplete="store-name"
+                  value={value.where.name}
+                  onChange={(e) => {
+                    setValue({
+                      ...value,
+                      where: { ...value.where, name: e.target.value },
+                    });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="city"
+                  name="city"
+                  label="City (Store Location)"
+                  fullWidth
+                  autoComplete="city-name"
+                  value={value.where.location.city}
+                  onChange={(e) => {
+                    setValue({
+                      ...value,
+                      where: {
+                        ...value.where,
+                        location: {
+                          ...value.where.location,
+                          city: e.target.value,
+                        },
+                      },
+                    });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="area"
+                  name="area"
+                  label="Area (Store Location)"
+                  fullWidth
+                  autoComplete="area"
+                  value={value.where.location.area}
+                  onChange={(e) => {
+                    setValue({
+                      ...value,
+                      where: {
+                        ...value.where,
+                        location: {
+                          ...value.where.location,
+                          area: e.target.value,
+                        },
+                      },
+                    });
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="description"
+                  name="description"
+                  label="Description"
+                  fullWidth
+                  autoComplete="description"
+                  value={value.description}
+                  onChange={(e) => {
+                    setValue({ ...value, description: e.target.value });
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="amount"
-                name="amount"
-                label="Amount"
-                fullWidth
-                autoComplete="amount"
-                value={`${value.amount}`}
-                onChange={(e) => {
-                  setValue({ ...value, amount: parseInt(e.target.value) });
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="products"
-                name="products"
-                label="Products"
-                fullWidth
-                autoComplete="products-name"
-                value={value.products}
-                onChange={(e) => {
-                  setValue({ ...value, products: e.target.value });
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="storeName"
-                name="storeName"
-                label="Store Name"
-                fullWidth
-                autoComplete="store-name"
-                value={value.where.name}
-                onChange={(e) => {
-                  setValue({ ...value, where: { ...value.where, name: e.target.value } });
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="city"
-                name="city"
-                label="City (Store Location)"
-                fullWidth
-                autoComplete="city-name"
-                value={value.where.location.city}
-                onChange={(e) => {
-                  setValue({ ...value, where: {...value.where, location: { ... value.where.location, city: e.target.value}} });
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="area"
-                name="area"
-                label="Area (Store Location)"
-                fullWidth
-                autoComplete="area"
-                value={value.where.location.area}
-                onChange={(e) => {
-                  setValue({ ...value, where: {...value.where, location: { ... value.where.location, area: e.target.value}} });
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="description"
-                name="description"
-                label="Description"
-                fullWidth
-                autoComplete="description"
-                value={value.description}
-                onChange={(e) => {
-                  setValue({ ...value, description: e.target.value });
-                }}
-              />
-            </Grid>
-          </Grid>
-          <React.Fragment>
-            <div className={classes.buttons}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={expenseCreate}
-                className={classes.button}
-              >
-                Save
-              </Button>
-            </div>
-            <div className={classes.buttons}>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {setShow(false)}}
-                className={classes.button}
-              >
-                Cancel
-              </Button>
-            </div>
-          </React.Fragment>
-        </Paper>
+            <React.Fragment>
+              <div className={classes.buttons}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={expenseCreate}
+                  className={classes.button}
+                >
+                  Save
+                </Button>
+              </div>
+              <div className={classes.buttons}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    setShow(false);
+                  }}
+                  className={classes.button}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </React.Fragment>
+          </Paper>
         </main>
       ) : (
         <React.Fragment>
@@ -260,25 +382,17 @@ export default function TableList() {
               <CardBody>
                 <Table
                   tableHeaderColor="primary"
-                  tableHead={["Name", "Country", "City", "Salary"]}
-                  tableData={[
-                    ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                    ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                    ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                    [
-                      "Philip Chaney",
-                      "Korea, South",
-                      "Overland Park",
-                      "$38,735",
-                    ],
-                    [
-                      "Doris Greene",
-                      "Malawi",
-                      "Feldkirchen in Kärnten",
-                      "$63,542",
-                    ],
-                    ["Mason Porter", "Chile", "Gloucester", "$78,615"],
+                  tableHead={[
+                    "S.No",
+                    "Name",
+                    "Date",
+                    "Products",
+                    "Amount",
+                    "Balance",
+                    "Description",
+                    "Location",
                   ]}
+                  tableData={expense}
                 />
               </CardBody>
             </Card>

@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
-import { SetupContext, SetUpContext } from '../../Services/setUpContext/setUpContext';
+import { SetupContext } from '../../Services/setUpContext/setUpContext';
 import { Button } from '@material-ui/core';
 import { useHistory } from 'react-router';
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Review({handleBack}) {
   const classes = useStyles();
-  const [setup,setSetup] = useContext(SetupContext);
+  const [setup] = useContext(SetupContext);
   const History = useHistory();
 
   return (

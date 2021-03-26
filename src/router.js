@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
-  Route,
-  useHistory,
+  Route
 } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
@@ -18,7 +17,7 @@ const Routers = () => {
     if (tokens) {
       setToken(token);
     }
-  }, []);
+  }, [token]);
   return (
     <Router>
       <Route

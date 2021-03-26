@@ -15,28 +15,6 @@ const useStyles = makeStyles(styles);
 export default function AdminNavbarLinks() {
   const classes = useStyles();
   const Historys = useHistory();
-  const [openNotification, setOpenNotification] = React.useState(null);
-  const [openProfile, setOpenProfile] = React.useState(null);
-  const handleClickNotification = (event) => {
-    if (openNotification && openNotification.contains(event.target)) {
-      setOpenNotification(null);
-    } else {
-      setOpenNotification(event.currentTarget);
-    }
-  };
-  const handleCloseNotification = () => {
-    setOpenNotification(null);
-  };
-  const handleClickProfile = (event) => {
-    if (openProfile && openProfile.contains(event.target)) {
-      setOpenProfile(null);
-    } else {
-      setOpenProfile(event.currentTarget);
-    }
-  };
-  const handleCloseProfile = () => {
-    setOpenProfile(null);
-  };
   return (
     <div>
       <div className={classes.manager}>
@@ -44,7 +22,7 @@ export default function AdminNavbarLinks() {
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
-          aria-owns={openProfile ? "profile-menu-list-grow" : null}
+          aria-owns={null}
           aria-haspopup="true"
           onClick={() => {
             localStorage.removeItem("token");

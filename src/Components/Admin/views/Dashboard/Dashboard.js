@@ -10,18 +10,11 @@ import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
 import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
 // core components
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
-import Table from "../../components/Table/Table.js";
-import Tasks from "../../components/Tasks/Tasks.js";
-import CustomTabs from "../../components/CustomTabs/CustomTabs.js";
 import Danger from "../../components/Typography/Danger.js";
 import Card from "../../components/Card/Card.js";
 import CardHeader from "../../components/Card/CardHeader.js";
@@ -29,12 +22,8 @@ import CardIcon from "../../components/Card/CardIcon.js";
 import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 
-import { bugs, website, server } from "../../variables/general.js";
-
 import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart,
+  completedTasksChart
 } from "../../variables/charts.js";
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
@@ -50,14 +39,14 @@ const useStyles = makeStyles({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [State, setState] = useContext(GlobalContext);
+  const [State] = useContext(GlobalContext);
 
   const AmountFormat = (val) => {
     var x = `${val}`;
     x = x.toString();
     var lastThree = x.substring(x.length - 3);
     var otherNumbers = x.substring(0, x.length - 3);
-    if (otherNumbers != "") {
+    if (otherNumbers !== "") {
       lastThree = "," + lastThree;
     }
     var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;

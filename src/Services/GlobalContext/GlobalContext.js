@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { profile } from "../APIservices";
 
 const initialState = {
@@ -35,8 +35,12 @@ const initialState = {
 };
 export const GlobalContext = React.createContext(initialState);
 
-export default ({ children }) => {
+const Global = ({ children }) => {
   const [State, setState] = React.useState(initialState);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const getProfile = async () => {
     try {
@@ -53,13 +57,11 @@ export default ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
-
   return (
     <GlobalContext.Provider value={[State, setState]}>
       {children}
     </GlobalContext.Provider>
   );
 };
+
+export default Global;

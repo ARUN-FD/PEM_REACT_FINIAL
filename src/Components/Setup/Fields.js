@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { Button, Card } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 
 const Fields = ({ i, setValues, data, remove }) => {
   const [value, setValue] = useState(data[i]);
@@ -11,7 +11,7 @@ const Fields = ({ i, setValues, data, remove }) => {
     let datas = data;
     datas[i] = value;
     setValues(datas);
-  }, [value]);
+  }, [value,data,i,setValues]);
 
   return (
     <Card

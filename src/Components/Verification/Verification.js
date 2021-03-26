@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router';
-import { signInFun, verifyFun } from '../../Services/APIservices';
+import { verifyFun } from '../../Services/APIservices';
 import { VerifiedUser } from '@material-ui/icons';
 
 const Copyright = () => {

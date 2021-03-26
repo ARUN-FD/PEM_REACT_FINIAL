@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -8,11 +8,7 @@ import Table from "../../components/Table/Table.js";
 import Card from "../../components/Card/Card.js";
 import CardHeader from "../../components/Card/CardHeader.js";
 import CardBody from "../../components/Card/CardBody.js";
-import FontDownload from '@material-ui/icons/CloudDownload';
-
-const Logo = ({index}) => {
-  return (<span onClick={()=> console.log(index)}><FontDownload /></span>)
-}
+import { getHistory } from "../../../../Services/APIservices.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -79,6 +75,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Maps() {
   const classes = useStyles();
+  const [history,setHistory] = useState([]);
+
+  useEffect(()=>{
+    getAllHistory();
+  },[])
+
+  const getAllHistory = async() => {
+    let response;
+    try{
+      response = await getHistory();
+      if(response.success){
+        let datas = [];
+        for (let index = 0; index < response.data.length; index++) {
+          let data = response.data[index];
+          datas.push([ `${(new Date(`${data.date}`).getMonth()+1)}/${(new Date(`${data.date}`).getFullYear())}`, `${data.savings}`, `${data.debit}`, `${((data.debit/data.totalIncome)*100)}%`])
+        }
+        console.log(datas);
+        setHistory(datas);
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -93,14 +113,7 @@ export default function Maps() {
             <Table
               tableHeaderColor="primary"
               tableHead={["Month", "Balance", "Total Expense", "expense (%)"]}
-              tableData={[
-                ["02/2020", "10000", "15000", "80", <Logo index={1} />],
-                ["03/2020", "18000", "18000", "90", <Logo index={1} />],
-                ["04/2020", "20000", "14000", "85", <Logo index={1} />],
-                ["05/2020", "24000", "19000", "86", <Logo index={1} />],
-                ["06/2020", "34000", "10000", "60", <Logo index={1} />],
-                ["07/2020", "30000", "24000", "90", <Logo index={1} />],
-              ]}
+              tableData={history}
             />
           </CardBody>
         </Card>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -56,20 +56,6 @@ export default function Checkout() {
   const steps = ["Address", "Qualification", "Work", "Review"];
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [values, setValues] = React.useState({
-    address: {
-      address1: "",
-      address2: "",
-      area: "",
-      city: "",
-      state: "",
-      country: "",
-      pincode: "",
-    },
-    qualification: [{ deg: "", passOut: "", completedAt: "" }],
-    count: [0],
-    work: {},
-  });
 
   const Copyright = () => {
     return (
@@ -98,10 +84,6 @@ export default function Checkout() {
         throw new Error("Unknown step");
     }
   };
-
-  useEffect(() => {
-    console.log(values, "valuesvaluesvalues");
-  }, [values]);
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);

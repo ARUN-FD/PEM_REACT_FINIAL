@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
@@ -16,6 +15,7 @@ import CardFooter from "../../components/Card/CardFooter.js";
 import avatar from "../../assets/img/faces/marc.jpg";
 import { GlobalContext } from "../../../../Services/GlobalContext/GlobalContext.js";
 import { useHistory } from "react-router";
+import { updateProfile } from "../../../../Services/APIservices.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -42,6 +42,19 @@ export default function UserProfile() {
   const [State, setState] = useContext(GlobalContext);
   const History = useHistory();
   const classes = useStyles();
+
+  const profileUpdate = async() => {
+    let response;
+    try{
+      response = await updateProfile({ firstName: State.firstName, lastName: State.lastName });
+      if(response.success){
+        setState({...State});
+      }
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
   return (
     <div>
       <GridContainer>
@@ -122,7 +135,7 @@ export default function UserProfile() {
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Update</Button>
+              <Button color="primary" onClick={profileUpdate}>Update</Button>
               <Button color="primary" onClick={()=> History.push("/checkOut")}>More Details</Button>
             </CardFooter>
           </Card>

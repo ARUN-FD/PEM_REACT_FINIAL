@@ -191,3 +191,231 @@ export const createRemainder = async(body) => {
     console.log(e);
   }
 }
+
+export const getExpenses = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/expense/getAll", {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    })
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const getRemainder = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/remainder/getAll", {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    })
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const getRegular = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/regular/getAll", {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    })
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const getHistory = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/history/getAll", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const getNotification = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/user/notification", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const updateProfile = async(body) => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try {
+    response = await Axios.put("/user/update",body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization":`${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const updateExpense = async(body) => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.put("/expense/update", body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const updateRemainder = async(body) => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.put("/remainder/update", body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const updateRegular = async(body) => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.put("/regular/update", body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const salaryCreate = async(body) => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.post("/salary/create",body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization":`${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const salaryUpdate = async(body) => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.put("/salary/update", body, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
+
+export const getSalary = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/salary/getAll", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
