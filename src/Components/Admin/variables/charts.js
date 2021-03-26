@@ -143,7 +143,7 @@ const completedTasksChart = {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
-    low: 0,
+    low: 2,
     high: 10, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
@@ -157,8 +157,8 @@ const completedTasksChart = {
       if (data.type === "line" || data.type === "area") {
         data.element.animate({
           d: {
-            begin: 600,
-            dur: 700,
+            begin: 2,
+            dur: 2,
             from: data.path
               .clone()
               .scale(1, 0)

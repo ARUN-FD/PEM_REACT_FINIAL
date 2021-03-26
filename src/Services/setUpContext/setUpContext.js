@@ -37,23 +37,24 @@ const SetUp = ({ children }) => {
   const [setup, setSetup] = React.useState(initialState);
 
   useEffect(() => {
-    getProfile();
-  }, []);
-
-  const getProfile = async () => {
-    try {
-      let response = await profile();
-      if (response.success) {
-        setSetup({
-          ...setup,
-          ...response.data,
-          count: response.data.qualification.map((x, i) => i),
-        });
+    const getProfile = async () => {
+      try {
+        let response = await profile();
+        if (response.success) {
+          setSetup({
+            ...setup,
+            ...response.data,
+            count: response.data.qualification.map((x, i) => i),
+          });
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+    };
+    if(!setup.firstName){
+      getProfile();
     }
-  };
+  }, [setup]);
 
   return (
     <SetupContext.Provider value={[setup, setSetup]}>

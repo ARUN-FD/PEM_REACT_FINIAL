@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -22,24 +22,20 @@ import CardIcon from "../../components/Card/CardIcon.js";
 import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
 
-import {
-  completedTasksChart
-} from "../../variables/charts.js";
+import { completedTasksChart } from "../../variables/charts.js";
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import { GlobalContext } from "../../../../Services/GlobalContext/GlobalContext.js";
+import { getChart } from "../../../../Services/APIservices.js";
 
 const useStyles = makeStyles({
-  ...styles,
-  chartHeight: {
-    height: "170px",
-    padding: '10px'
-  },
+  ...styles
 });
 
 export default function Dashboard() {
   const classes = useStyles();
   const [State] = useContext(GlobalContext);
+  const [chart, setChart] = useState([]);
 
   const AmountFormat = (val) => {
     var x = `${val}`;
@@ -51,6 +47,22 @@ export default function Dashboard() {
     }
     var res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
     return res;
+  };
+
+  useEffect(() => {
+    getChartData();
+  }, []);
+
+  const getChartData = async () => {
+    let response;
+    try {
+      response = await getChart();
+      if (response.success) {
+        setChart(response.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -141,7 +153,42 @@ export default function Dashboard() {
             <CardHeader color="success" className={classes.chartHeight}>
               <ChartistGraph
                 className="ct-chart"
-                data={completedTasksChart.data}
+                data={{
+                  labels: [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11",
+                    "12",
+                    "13",
+                    "14",
+                    "15",
+                    "16",
+                    "17",
+                    "18",
+                    "19",
+                    "20",
+                    "21",
+                    "22",
+                    "23",
+                    "24",
+                    "25",
+                    "26",
+                    "27",
+                    "28",
+                    "29",
+                    "30",
+                    "31",
+                  ],
+                  series: [chart],
+                }}
                 type="Line"
                 options={completedTasksChart.options}
                 listener={completedTasksChart.animation}

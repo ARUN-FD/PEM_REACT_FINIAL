@@ -39,23 +39,27 @@ const Global = ({ children }) => {
   const [State, setState] = React.useState(initialState);
 
   useEffect(() => {
-    getProfile();
-  }, []);
-
-  const getProfile = async () => {
-    try {
-      let response = await profile();
-      if (response.success) {
-        setState({
-          ...State,
-          ...response.data,
-          count: response.data.qualification.map((x, i) => i),
-        });
+    const getProfile = async () => {
+      try {
+        let response = await profile();
+        if (response.success) {
+          let data = {
+            ...State,
+            ...response.data,
+            count: response.data.qualification.length,
+          }
+          setState(data);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
+    };
+    if(!State.firstName){
+      getProfile();
     }
-  };
+  }, [State]);
+
+ 
 
   return (
     <GlobalContext.Provider value={[State, setState]}>

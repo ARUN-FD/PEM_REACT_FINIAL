@@ -419,3 +419,22 @@ export const getSalary = async() => {
     console.log(e);
   }
 }
+
+export const getChart = async() => {
+  let response;
+  let token = await localStorage.getItem("token");
+  try{
+    response = await Axios.get("/expense/chart", {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `${token}`
+      }
+    });
+    if(response.data.success){
+      return await response.data;
+    }
+  }
+  catch(e){
+    console.log(e);
+  }
+}
