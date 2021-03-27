@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Checkout from "./Components/Setup/CheckOut";
 import Verification from "./Components/Verification/Verification";
-import Dashboard from './Components/Admin/layouts/Admin';
+import Dashboard from "./Components/Admin/layouts/Admin";
+import GlobalContext from "../src/Services/GlobalContext/GlobalContext";
 
 const Routers = () => {
   const [token, setToken] = useState("");
@@ -33,7 +30,14 @@ const Routers = () => {
       />
       <Route exact path={"/login"} component={Login} />
       <Route exact path={"/register"} component={Register} />
-      <Route path={"/user"} component={Dashboard} />
+      <Route
+        path={"/user"}
+        component={() => (
+          <GlobalContext>
+            <Dashboard />
+          </GlobalContext>
+        )}
+      />
       <Route exact path={"/checkout"} component={Checkout} />
       <Route exact path={"/verify"} component={Verification} />
     </Router>

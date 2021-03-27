@@ -101,18 +101,25 @@ export const workFun = async (body) => {
 
 export const profile = async () => {
   let response;
+  console.log("profile API")
   let token = await localStorage.getItem("token");
   try {
-    response = await Axios.get(`${api}/user/profile`, {
+    response = await fetch(`${api}/user/profile`, {
+      method: 'get',
       headers: {
         "Content-Type": "applicatio/json",
-        Authorization: `${token}`,
+        "Authorization": token,
       },
     });
-    if (response.data.success) {
-      return await response.data;
+    if (response) {
+      return await response.json();
+    }
+    if(response.status === 401){
+      localStorage.removeItem("token");
+      window.location.pathname = "/login";
     }
   } catch (e) {
+    console.log(e);
     throw e;
   }
 };
