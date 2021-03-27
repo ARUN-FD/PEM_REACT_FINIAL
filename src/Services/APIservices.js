@@ -1,6 +1,6 @@
 import Axios from "axios";
-// const api = "https://pem-back.herokuapp.com/api";
-const api = "http://localhost:3100/api"
+const api = "https://pem-backend.herokuapp.com/api";
+// const api = "http://localhost:3100/api"
 
 export const signInFun = async (body) => {
   console.log("object", body);
