@@ -2,7 +2,7 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "display": "standalone",
-  "start_url": "index.html",
+  "start_url": ".",
   "name": "Person Economy Management",
   "short_name": "PEM",
   "description": "Person Economy managing we a my app",
